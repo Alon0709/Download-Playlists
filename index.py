@@ -2,15 +2,13 @@ import pytube;
 import threading;
 from tkinter.filedialog import askdirectory;
 
-
 def downloadVideo(video: pytube.YouTube, path):
-    i = 0;
-    while i < 10:
+    videoPath = video.title + '.mp4'
+    for i in range(10):
         try:
-            video.streams.first().download(path, video.title + '.mp4')
+            video.streams.first().download(path, videoPath)
             break;
         except:
-            i += 1;
             if (i == 10):
                 print(f"script failed downloaing video {video.title} 10 times, LEAVE ME ALONE!");
                 return;
@@ -19,8 +17,7 @@ def downloadVideo(video: pytube.YouTube, path):
 
 def downloadVideos(videos: [pytube.YouTube], path):
     threads = [];
-    garbageVideo = [];
-    for video in videos:
+    for video in videos: 
         threads.append(threading.Thread(target=downloadVideo,args=(video, path)));
         threads[-1].start();
     for t in threads: 
